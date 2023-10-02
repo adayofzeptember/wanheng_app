@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- <resources>
+    <string name="app_name">WH</string>
+    <string name="facebook_app_id">204263275922008</string>
+    <string name="fb_login_protocol_scheme">fb204263275922008</string>
+    <string name="facebook_client_token">be7171f3aa56a468ee47f76a24dbe5bb</string>
+</resources>
+ -->
+<resources>
+    <string name="app_name">Wanheng</string> 
+    <string name="facebook_app_id">891196085183212</string>
+    <string name="fb_login_protocol_scheme">fb891196085183212</string>
+    <string name="facebook_client_token">a2fb7aae87a5d94d865a825bb1b65fc9</string>
+</resources>

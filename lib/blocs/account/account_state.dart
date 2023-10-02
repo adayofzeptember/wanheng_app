@@ -1,0 +1,118 @@
+part of 'account_bloc.dart';
+
+// ignore: must_be_immutable
+class AccountState extends Equatable {
+  AccountState({
+    required this.expirationDate,
+    required this.userId,
+    required this.email,
+    required this.phone,
+    required this.avatar,
+    required this.firstName,
+    required this.lastName,
+    required this.gender,
+    required this.birthDay,
+    required this.birthMonth,
+    required this.birthYear,
+    required this.brithHour,
+    required this.birthMin,
+    required this.invalid,
+    required this.loading,
+    required this.regPassMatch,
+    required this.regCheckPass,
+    required this.regCheckPhone,
+    required this.element,
+    required this.regCheckEmail,
+    required this.resCheckOTP,
+    required this.countdown,
+    required this.premium,
+    required this.isTesting,
+  });
+  int userId, countdown;
+  String email, phone, firstName, lastName, gender, birthDay, birthMonth, birthYear, brithHour, birthMin, avatar, element;
+  String expirationDate;
+  bool invalid, loading;
+  bool regPassMatch, regCheckPass, regCheckPhone, premium, regCheckEmail, resCheckOTP, isTesting;
+
+  AccountState copyWith({
+    String? expirationDate,
+    int? userId,
+    String? element,
+    String? email,
+    String? phone,
+    String? avatar,
+    String? firstName,
+    String? lastName,
+    String? gender,
+    String? birthDay,
+    String? birthMonth,
+    String? birthYear,
+    String? brithHour,
+    String? birthMin,
+    bool? invalid,
+    bool? loading,
+    bool? regPassMatch,
+    bool? regCheckPass,
+    bool? regCheckPhone,
+    bool? regCheckEmail,
+    bool? resCheckOTP,
+    int? countdown,
+    bool? premium,
+    bool? isTesting,
+  }) {
+    return AccountState(
+      premium: premium ?? this.premium,
+      countdown: countdown ?? this.countdown,
+      email: email ?? this.email,
+      userId: userId ?? this.userId,
+      element: element ?? this.element,
+      phone: phone ?? this.phone,
+      avatar: avatar ?? this.avatar,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      gender: gender ?? this.gender,
+      birthDay: birthDay ?? this.birthDay,
+      birthMonth: birthMonth ?? this.birthMonth,
+      birthYear: birthYear ?? this.birthYear,
+      brithHour: brithHour ?? this.brithHour,
+      birthMin: birthMin ?? this.birthMin,
+      invalid: invalid ?? this.invalid,
+      loading: loading ?? this.loading,
+      regPassMatch: regPassMatch ?? this.regPassMatch,
+      regCheckPass: regCheckPass ?? this.regCheckPass,
+      regCheckPhone: regCheckPhone ?? this.regCheckPhone,
+      regCheckEmail: regCheckEmail ?? this.regCheckEmail,
+      resCheckOTP: resCheckOTP ?? this.resCheckOTP,
+      expirationDate: expirationDate ?? this.expirationDate,
+      isTesting: isTesting ?? this.isTesting,
+    );
+  }
+
+  @override
+  List<Object> get props => [
+        premium,
+        countdown,
+        userId,
+        phone,
+        element,
+        avatar,
+        email,
+        firstName,
+        lastName,
+        gender,
+        birthDay,
+        birthMonth,
+        birthYear,
+        brithHour,
+        birthMin,
+        invalid,
+        loading,
+        regPassMatch,
+        regCheckPass,
+        regCheckPhone,
+        regCheckEmail,
+        resCheckOTP,
+        expirationDate,
+        isTesting,
+      ];
+}
