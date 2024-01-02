@@ -7,6 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wanheng_app/blocs/account/account_bloc.dart';
 import 'package:wanheng_app/services/google%20signin/signin_method.dart';
+import 'package:wanheng_app/utils/filter_email.dart';
 import '../../routes/login.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/config.dart';
@@ -119,25 +120,28 @@ class _PageFormRegisterState extends State<PageFormRegister> {
                         const SizedBox(height: 30),
                         BlocBuilder<AccountBloc, AccountState>(
                           builder: (context, state) {
-                            return Row(
-                              children: [
-                                Text(
-                                  "Email ",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
+                            if (!checkEmailDomain(state.email, "privaterelay.appleid.com"))
+                              return Row(
+                                children: [
+                                  Text(
+                                    "Email ",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  "${state.email}",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.black,
+                                  Text(
+                                    "${state.email}",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            );
+                                ],
+                              );
+                            else
+                              return SizedBox();
                           },
                         ),
                         const SizedBox(height: 12),

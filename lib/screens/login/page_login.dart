@@ -205,86 +205,93 @@ class _PageLoginState extends State<PageLogin> {
                             );
                           }
                         }),
-                        const SizedBox(height: 10),
-                        Container(
-                          width: w,
-                          child: Row(children: <Widget>[
-                            Expanded(
-                              child: Container(
-                                  margin: const EdgeInsets.only(left: 10.0, right: 20.0),
-                                  child: const Divider(
-                                    color: Colors.black,
-                                    height: 36,
-                                  )),
-                            ),
-                            const Center(
-                              child: Text(
-                                'หรือ',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                  margin: const EdgeInsets.only(left: 20.0, right: 10.0),
-                                  child: const Divider(
-                                    color: Colors.black,
-                                    height: 36,
-                                  )),
-                            ),
-                          ]),
-                        ),
-                        const SizedBox(height: 10),
                         if (Platform.isAndroid)
-                          Btn(
-                            onClick: () {
-                              _googleSignInFunction(context);
-                            },
-                            imgOrIcon: Image.asset('assets/images/logo_google.png'),
-                            title: 'เข้าสู่ระบบด้วย Google',
-                            textColor: Colors.black,
+                          Column(
+                            children: [
+                              const SizedBox(height: 10),
+                              Container(
+                                width: w,
+                                child: Row(children: <Widget>[
+                                  Expanded(
+                                    child: Container(
+                                        margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                                        child: const Divider(
+                                          color: Colors.black,
+                                          height: 36,
+                                        )),
+                                  ),
+                                  const Center(
+                                    child: Text(
+                                      'หรือ',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                        margin: const EdgeInsets.only(left: 20.0, right: 10.0),
+                                        child: const Divider(
+                                          color: Colors.black,
+                                          height: 36,
+                                        )),
+                                  ),
+                                ]),
+                              ),
+                              const SizedBox(height: 10),
+                              if (Platform.isAndroid)
+                                Btn(
+                                  onClick: () {
+                                    _googleSignInFunction(context);
+                                  },
+                                  imgOrIcon: Image.asset('assets/images/logo_google.png'),
+                                  title: 'เข้าสู่ระบบด้วย Google',
+                                  textColor: Colors.black,
+                                )
+                              else
+                                Btn(
+                                  onClick: () async {
+                                    EasyLoading.show(maskType: EasyLoadingMaskType.black, status: 'กำลังโหลด');
+                                    try {
+                                      final credential = await SignInWithApple.getAppleIDCredential(
+                                        scopes: [
+                                          AppleIDAuthorizationScopes.email,
+                                          AppleIDAuthorizationScopes.fullName,
+                                        ],
+                                      );
+                                      print(credential.state);
+
+                                      Map<String, dynamic> user = JwtDecoder.decode("${credential.identityToken}");
+                                      context
+                                          .read<AccountBloc>()
+                                          .add(LoginWithSocial(context: context, getGoogleEmail: user["email"], getGoogleImg: ""));
+                                    } catch (e) {
+                                      print(e);
+                                      EasyLoading.dismiss();
+                                    }
+                                  },
+                                  imgOrIcon: Icon(Icons.apple, color: Colors.black),
+                                  title: 'เข้าสู่ระบบด้วย Apple',
+                                  textColor: Colors.black,
+                                ),
+                              const SizedBox(height: 3),
+                              Btn(
+                                onClick: () {
+                                  useFacebook_toLogin();
+                                },
+                                imgOrIcon: Icon(
+                                  Icons.facebook_outlined,
+                                  color: Colors.blue,
+                                ),
+                                title: 'เข้าสู่ระบบด้วย Facebook',
+                                textColor: Colors.black,
+                              ),
+                            ],
                           )
                         else
-                          Btn(
-                            onClick: () async {
-                              EasyLoading.show(maskType: EasyLoadingMaskType.black, status: 'กำลังโหลด');
-                              try {
-                                final credential = await SignInWithApple.getAppleIDCredential(
-                                  scopes: [
-                                    AppleIDAuthorizationScopes.email,
-                                    AppleIDAuthorizationScopes.fullName,
-                                  ],
-                                );
-                                print(credential.state);
-
-                                Map<String, dynamic> user = JwtDecoder.decode("${credential.identityToken}");
-                                context
-                                    .read<AccountBloc>()
-                                    .add(LoginWithSocial(context: context, getGoogleEmail: user["email"], getGoogleImg: ""));
-                              } catch (e) {
-                                print(e);
-                                EasyLoading.dismiss();
-                              }
-                            },
-                            imgOrIcon: Icon(Icons.apple, color: Colors.black),
-                            title: 'เข้าสู่ระบบด้วย Apple',
-                            textColor: Colors.black,
-                          ),
-                        const SizedBox(height: 3),
-                        Btn(
-                          onClick: () {
-                            useFacebook_toLogin();
-                          },
-                          imgOrIcon: Icon(
-                            Icons.facebook_outlined,
-                            color: Colors.blue,
-                          ),
-                          title: 'เข้าสู่ระบบด้วย Facebook',
-                          textColor: Colors.black,
-                        ),
+                          Container(),
                       ],
                     ),
                   ),

@@ -1,5 +1,4 @@
 import 'package:google_sign_in/google_sign_in.dart';
-
 class GoogleSignInAPI {
   static final _googleSignIn = GoogleSignIn();
 
@@ -9,3 +8,11 @@ class GoogleSignInAPI {
 
   static GoogleSignInAccount? check() => _googleSignIn.currentUser;
 }
+
+
+
+
+
+
+
+

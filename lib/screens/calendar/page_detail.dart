@@ -7,9 +7,14 @@ import '../../blocs/calendar/calendar_bloc.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/images_path.dart';
 
-class PageDetail extends StatelessWidget {
+class PageDetail extends StatefulWidget {
   const PageDetail({Key? key}) : super(key: key);
 
+  @override
+  State<PageDetail> createState() => _PageDetailState();
+}
+
+class _PageDetailState extends State<PageDetail> {
   @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;

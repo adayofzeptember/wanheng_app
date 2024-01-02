@@ -142,7 +142,7 @@ class PageCalendar extends StatelessWidget {
                                               Navigator.push(context, pageSettingPayment());
                                             },
                                             child: Text(
-                                              "การสมัครแพ็ตเกจ",
+                                              "การสมัครแพ็กเกจ",
                                               style: TextStyle(
                                                 fontSize: 12,
                                                 color: AppColor.mainColor,
@@ -238,7 +238,7 @@ class PageCalendar extends StatelessWidget {
                                             TextButton(
                                               onPressed: () => Navigator.push(context, pageSettingPayment()),
                                               child: Text(
-                                                'การสมัครแพ็ตเกจ',
+                                                'การสมัครแพ็กเกจ',
                                                 style: TextStyle(color: Color.fromARGB(255, 246, 193, 0)),
                                               ),
                                             ),

@@ -194,7 +194,7 @@ class PageProfile extends StatelessWidget {
                             child: SizedBox(
                               width: 200,
                               child: Btn(
-                                title: (state.premium) ? 'การชำระเงิน' : "การสมัครแพ็ตเกจ",
+                                title: (state.premium) ? 'การชำระเงิน' : "การสมัครแพ็กเกจ",
                                 onClick: () => Navigator.push(context, pageSettingPayment()),
                                 bgColor: const Color.fromARGB(255, 215, 190, 138),
                                 textColor: AppColor.mainColor,

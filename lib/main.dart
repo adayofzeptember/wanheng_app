@@ -44,7 +44,6 @@ void main() async {
         ),
       );
   await _configureSDK();
-
   runApp(const MyApp());
 }
 
