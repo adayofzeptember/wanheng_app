@@ -10,9 +10,15 @@ abstract class CalendarEvent extends Equatable {
 }
 
 class SelectDate extends CalendarEvent {
-  String date, strDate;
+  String date, strDate, day, yearMonth;
   SelectDate({
     required this.date,
     required this.strDate,
+    required this.day,
+    required this.yearMonth,
   });
+}
+
+class GetTodayNumber extends CalendarEvent {
+  
 }

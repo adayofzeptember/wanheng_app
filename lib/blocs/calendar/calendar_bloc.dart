@@ -13,12 +13,21 @@ part 'calendar_state.dart';
 class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
   CalendarBloc()
       : super(CalendarState(
+          dayPremiumCheckPlus: 0,
+          yearMonthOnly: '',
+          dayOnly: "",
           loading: false,
           predictData: {},
           dateSelect: "",
         )) {
     on<SelectDate>((event, emit) async {
-      emit(state.copyWith(loading: true, dateSelect: event.strDate));
+      emit(state.copyWith(
+          loading: true,
+          dateSelect: event.strDate,
+          dayOnly: event.day,
+          yearMonthOnly: event.yearMonth));
+
+      // print('date in bloc: ' +  state.yearMonthOnly+ state.dayOnly);
       final prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
       try {
@@ -43,14 +52,16 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
                 key: response.data["data"]["top"]["element"]["key"],
                 china: response.data["data"]["top"]["element"]["china"],
                 zodiac: "",
-                elementEn: response.data["data"]["top"]["element"]["element_en"],
+                elementEn: response.data["data"]["top"]["element"]
+                    ["element_en"],
                 element: response.data["data"]["top"]["element"]["element"],
                 attribute: response.data["data"]["top"]["element"]["attribute"],
               ),
               interpret: InterpretTop(
                 key: response.data["data"]["top"]["interpret"]["key"],
                 title: response.data["data"]["top"]["interpret"]["title"],
-                description: response.data["data"]["top"]["interpret"]["description"],
+                description: response.data["data"]["top"]["interpret"]
+                    ["description"],
                 person: response.data["data"]["top"]["interpret"]["person"],
               ),
             ),
@@ -59,14 +70,17 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
                 key: response.data["data"]["bottom"]["zodiac"]["key"],
                 china: response.data["data"]["bottom"]["zodiac"]["china"],
                 zodiac: response.data["data"]["bottom"]["zodiac"]["zodiac"],
-                elementEn: response.data["data"]["bottom"]["zodiac"]["element_en"],
+                elementEn: response.data["data"]["bottom"]["zodiac"]
+                    ["element_en"],
                 element: response.data["data"]["bottom"]["zodiac"]["element"],
-                attribute: response.data["data"]["bottom"]["zodiac"]["attribute"],
+                attribute: response.data["data"]["bottom"]["zodiac"]
+                    ["attribute"],
               ),
               interpret: InterpretBottom(
                 key: response.data["data"]["bottom"]["interpret"]["key"],
                 title: response.data["data"]["bottom"]["interpret"]["title"],
-                description: response.data["data"]["bottom"]["interpret"]["description"],
+                description: response.data["data"]["bottom"]["interpret"]
+                    ["description"],
                 person: response.data["data"]["bottom"]["interpret"]["person"],
               ),
             ),
@@ -78,6 +92,14 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
         EasyLoading.showToast('มีบางอย่างผิดพลาด');
         print("Exception $e");
       }
+    });
+
+    //?
+    on<GetTodayNumber>((event, emit) {
+      final now = DateTime.now();
+      emit(state.copyWith(dayPremiumCheckPlus: now.day + 6));
+
+      print('Plus to : ' + state.dayPremiumCheckPlus.toString());
     });
   }
 }

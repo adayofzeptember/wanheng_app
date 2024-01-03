@@ -17,14 +17,13 @@ class AppColor {
   static const soli1 = Color.fromARGB(255, 136, 105, 89);
   static const water1 = Color.fromARGB(255, 193, 193, 193);
   static const wood1 = Color.fromARGB(255, 44, 166, 90);
-
+  static const wife = Color.fromARGB(255, 233, 35, 60); //มะเมีย
   static const lose = Color.fromARGB(255, 38, 86, 154); //ชวด
   static const ox = Color.fromARGB(255, 136, 105, 89); //ฉลู
   static const tiger = Color.fromARGB(255, 24, 82, 59); //ขาล
   static const hare = Color.fromARGB(255, 44, 166, 90); //เถาะ
   static const marong = Color.fromARGB(255, 243, 192, 94); //มะโรง
   static const cancer = Color.fromARGB(255, 234, 63, 120); //มะเส็ง
-  static const wife = Color.fromARGB(255, 233, 35, 60); //มะเมีย
   static const goat = Color.fromARGB(255, 245, 131, 53); //มะแม
   static const monkey = Color.fromARGB(255, 146, 146, 146); //วอก
   static const rooster = Color.fromARGB(255, 199, 172, 86); //ระกา

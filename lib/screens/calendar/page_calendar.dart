@@ -15,7 +15,7 @@ class PageCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("calendar");
+    context.read<CalendarBloc>().add(GetTodayNumber());
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -79,9 +79,16 @@ class PageCalendar extends StatelessWidget {
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       image: (state.avatar == "")
-                                          ? DecorationImage(image: AssetImage(AppImage.noImage), fit: BoxFit.cover)
-                                          : DecorationImage(image: NetworkImage("$apiPublic" + state.avatar), fit: BoxFit.cover),
-                                      borderRadius: const BorderRadius.all(Radius.circular(150.0)),
+                                          ? DecorationImage(
+                                              image:
+                                                  AssetImage(AppImage.noImage),
+                                              fit: BoxFit.cover)
+                                          : DecorationImage(
+                                              image: NetworkImage(
+                                                  "$apiPublic" + state.avatar),
+                                              fit: BoxFit.cover),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(150.0)),
                                       border: Border.all(
                                         color: Colors.white,
                                         width: 2.5,
@@ -91,7 +98,8 @@ class PageCalendar extends StatelessWidget {
                                   const SizedBox(width: 10),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         width: w * 0.4,
@@ -110,9 +118,11 @@ class PageCalendar extends StatelessWidget {
                                         Container(
                                           decoration: BoxDecoration(
                                             color: AppColor.premium,
-                                            borderRadius: BorderRadius.circular(8),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
                                           ),
-                                          padding: const EdgeInsets.fromLTRB(12, 2, 12, 2),
+                                          padding: const EdgeInsets.fromLTRB(
+                                              12, 2, 12, 2),
                                           child: Row(
                                             children: [
                                               Image.asset(
@@ -123,7 +133,8 @@ class PageCalendar extends StatelessWidget {
                                                 ' Premium member',
                                                 style: TextStyle(
                                                   fontSize: 12,
-                                                  color: const Color.fromARGB(255, 129, 83, 26),
+                                                  color: const Color.fromARGB(
+                                                      255, 129, 83, 26),
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -132,14 +143,18 @@ class PageCalendar extends StatelessWidget {
                                         )
                                       else
                                         Container(
-                                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                                          padding: const EdgeInsets.fromLTRB(
+                                              8, 0, 8, 0),
                                           decoration: BoxDecoration(
-                                            color: const Color.fromARGB(255, 215, 190, 138),
-                                            borderRadius: BorderRadius.circular(6),
+                                            color: const Color.fromARGB(
+                                                255, 215, 190, 138),
+                                            borderRadius:
+                                                BorderRadius.circular(6),
                                           ),
                                           child: InkWell(
                                             onTap: () {
-                                              Navigator.push(context, pageSettingPayment());
+                                              Navigator.push(context,
+                                                  pageSettingPayment());
                                             },
                                             child: Text(
                                               "การสมัครแพ็กเกจ",
@@ -159,7 +174,10 @@ class PageCalendar extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(60),
-                                  border: Border.all(color: const Color.fromARGB(255, 209, 180, 132), width: 3.5),
+                                  border: Border.all(
+                                      color: const Color.fromARGB(
+                                          255, 209, 180, 132),
+                                      width: 3.5),
                                 ),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -173,7 +191,8 @@ class PageCalendar extends StatelessWidget {
                                       state.element,
                                       style: TextStyle(
                                         fontSize: 10,
-                                        color: checkElementColorAccount(state.element),
+                                        color: checkElementColorAccount(
+                                            state.element),
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -211,35 +230,50 @@ class PageCalendar extends StatelessWidget {
                               daysOfWeekVisible: true,
                               sixWeekMonthsEnforced: true,
                               onDaySelected: (daySelect, dayFocus) {
-                                String month = (daySelect.month < 10) ? "0${daySelect.month}" : "${daySelect.month}";
-                                String day = (daySelect.day < 10) ? "0${daySelect.day}" : "${daySelect.day}";
+                                String month = (daySelect.month < 10)
+                                    ? "0${daySelect.month}"
+                                    : "${daySelect.month}";
+                                String day = (daySelect.day < 10)
+                                    ? "0${daySelect.day}"
+                                    : "${daySelect.day}";
                                 var formatterDate = DateFormat.yMMMMEEEEd();
 
                                 if (!state.premium) {
                                   final now = DateTime.now();
-                                  final today = DateTime(now.year, now.month, now.day + 6);
-                                  final backday = DateTime(now.year, now.month, now.day - 6);
-                                  final checkDate = DateTime(daySelect.year, daySelect.month, daySelect.day);
-                                  if (today.compareTo(checkDate) < 0 || backday.compareTo(checkDate) > 0) {
+                                  final today = DateTime(
+                                      now.year, now.month, now.day + 6);
+                                  final backday = DateTime(
+                                      now.year, now.month, now.day - 6);
+                                  final checkDate = DateTime(daySelect.year,
+                                      daySelect.month, daySelect.day);
+                                  if (today.compareTo(checkDate) < 0 ||
+                                      backday.compareTo(checkDate) > 0) {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
                                           title: Text('ต้องการปลดล็อก Premium'),
-                                          content: Text('สมัครPremium เพื่อใช้งานฟังก์ชัน'),
+                                          content: Text(
+                                              'สมัครPremium เพื่อดูฮวงจุ้ยที่นานกว่า 1 สัปดาห์ขึ้นไป'),
                                           actions: [
                                             TextButton(
-                                              onPressed: () => Navigator.pop(context),
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
                                               child: Text(
                                                 'ปิด',
-                                                style: TextStyle(color: Colors.grey),
+                                                style: TextStyle(
+                                                    color: Colors.grey),
                                               ),
                                             ),
                                             TextButton(
-                                              onPressed: () => Navigator.push(context, pageSettingPayment()),
+                                              onPressed: () => Navigator.push(
+                                                  context,
+                                                  pageSettingPayment()),
                                               child: Text(
                                                 'การสมัครแพ็กเกจ',
-                                                style: TextStyle(color: Color.fromARGB(255, 246, 193, 0)),
+                                                style: TextStyle(
+                                                    color: Color.fromARGB(
+                                                        255, 246, 193, 0)),
                                               ),
                                             ),
                                           ],
@@ -248,20 +282,29 @@ class PageCalendar extends StatelessWidget {
                                     );
                                   } else {
                                     context.read<CalendarBloc>().add(SelectDate(
+                                          yearMonth:
+                                              "${daySelect.year}-$month-",
+                                          day: "${daySelect.day}",
                                           date: "${daySelect.year}-$month-$day",
-                                          strDate: formatterDate.format(daySelect),
+                                          strDate:
+                                              formatterDate.format(daySelect),
                                         ));
                                     Navigator.push(context, pageDetail());
                                   }
                                 } else {
                                   context.read<CalendarBloc>().add(SelectDate(
+                                        yearMonth: "${daySelect.year}-$month-",
+                                        day: "${daySelect.day}",
                                         date: "${daySelect.year}-$month-$day",
-                                        strDate: formatterDate.format(daySelect),
+                                        strDate:
+                                            formatterDate.format(daySelect),
                                       ));
                                   Navigator.push(context, pageDetail());
                                 }
                               },
-                              headerStyle: HeaderStyle(formatButtonVisible: false, titleCentered: true),
+                              headerStyle: HeaderStyle(
+                                  formatButtonVisible: false,
+                                  titleCentered: true),
                               calendarStyle: CalendarStyle(
                                 markerDecoration: const BoxDecoration(
                                   color: Color.fromARGB(182, 124, 2, 2),

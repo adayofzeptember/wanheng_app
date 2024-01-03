@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:wanheng_app/routes/payment.dart';
 import 'package:wanheng_app/widget/components/card_detail.dart';
-
 import '../../blocs/calendar/calendar_bloc.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/images_path.dart';
@@ -16,62 +17,165 @@ class PageDetail extends StatefulWidget {
 
 class _PageDetailState extends State<PageDetail> {
   @override
+  void initState() {
+    context.read<CalendarBloc>().add(GetTodayNumber());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 132, 2, 2),
-        elevation: 0,
-        title: BlocBuilder<CalendarBloc, CalendarState>(
-          builder: (context, state) {
-            return Text(
-              state.dateSelect,
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            );
-          },
-        ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-          ),
-        ),
-        centerTitle: true,
-      ),
-      backgroundColor: AppColor.mainColor,
-      body: Container(
-        width: w,
-        height: h,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(AppImage.bg4),
-            fit: BoxFit.cover,
-          ),
-        ),
-        alignment: Alignment.center,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-            child: BlocBuilder<CalendarBloc, CalendarState>(
+    return BlocBuilder<CalendarBloc, CalendarState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: const Color.fromARGB(255, 132, 2, 2),
+            elevation: 0,
+            title: BlocBuilder<CalendarBloc, CalendarState>(
               builder: (context, state) {
-                return (state.loading == false)
+                return Text(
+                  state.dateSelect,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                );
+              },
+            ),
+            actions: [
+              //!+
+              IconButton(
+                onPressed: () {
+                  int dayPlus = int.parse(state.dayOnly) + 1;
+                  String resultDay =
+                      (dayPlus < 10) ? "0${dayPlus}" : dayPlus.toString();
+
+                  String finalNewDate = state.yearMonthOnly + resultDay;
+
+                  DateTime parsedNewDate =
+                      DateFormat('yyyy-MM-dd').parse(finalNewDate);
+
+                  var formatterDate = DateFormat.yMMMMEEEEd();
+                  //* เช็คไม่ให้เกิน premium
+                  if (int.parse(state.dayOnly) < state.dayPremiumCheckPlus) {
+                    context.read<CalendarBloc>().add(SelectDate(
+                          day: dayPlus.toString(),
+                          yearMonth: state.yearMonthOnly,
+                          date: finalNewDate,
+                          strDate: formatterDate.format(parsedNewDate),
+                        ));
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('ต้องการปลดล็อก Premium'),
+                          content: Text(
+                              'สมัครPremium เพื่อดูฮวงจุ้ยที่นานกว่า 1 สัปดาห์ขึ้นไป'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text(
+                                'ปิด',
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () =>
+                                  Navigator.push(context, pageSettingPayment()),
+                              child: Text(
+                                'การสมัครแพ็กเกจ',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 246, 193, 0)),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
+                icon: const Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+            //!---
+            leading: IconButton(
+              onPressed: () {
+                int dayMinus = int.parse(state.dayOnly) - 1;
+                String resultDay =
+                    (dayMinus < 10) ? "0${dayMinus}" : dayMinus.toString();
+
+                String finalNewDate = state.yearMonthOnly + resultDay;
+
+                DateTime parsedNewDate =
+                    DateFormat('yyyy-MM-dd').parse(finalNewDate);
+
+                var formatterDate = DateFormat.yMMMMEEEEd();
+
+                context.read<CalendarBloc>().add(SelectDate(
+                      day: dayMinus.toString(),
+                      yearMonth: state.yearMonthOnly,
+                      date: finalNewDate,
+                      strDate: formatterDate.format(parsedNewDate),
+                    ));
+              },
+              icon: const Icon(
+                Icons.arrow_back_ios,
+                color: Colors.white,
+              ),
+            ),
+            centerTitle: true,
+          ),
+          backgroundColor: AppColor.mainColor,
+          body: Container(
+            width: w,
+            height: h,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(AppImage.bg4),
+                fit: BoxFit.cover,
+              ),
+            ),
+            alignment: Alignment.center,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                child: (state.loading == false)
                     ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    color: AppColor.title,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5))),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Text(
+                                    'กลับไปหน้าปฏิทิน',
+                                    style: TextStyle(color: AppColor.mainColor),
+                                  ),
+                                )),
+                          ),
                           CardDetail(
                             isTop: true,
                             title: 'ราศีบน',
-                            iconTitleElemment: state.predictData.top.element.element,
+                            iconTitleElemment:
+                                state.predictData.top.element.element,
                             zodiac: '',
                             subtitle: state.predictData.top.interpret.title,
-                            content: state.predictData.top.interpret.description,
+                            content:
+                                state.predictData.top.interpret.description,
                             person: state.predictData.top.interpret.person,
                           ),
                           CardDetail(
@@ -79,7 +183,8 @@ class _PageDetailState extends State<PageDetail> {
                             title: 'ราศีล่าง',
                             zodiac: state.predictData.bottom.zodiac.zodiac,
                             subtitle: state.predictData.bottom.interpret.title,
-                            content: state.predictData.bottom.interpret.description,
+                            content:
+                                state.predictData.bottom.interpret.description,
                             person: state.predictData.bottom.interpret.person,
                           ),
                         ],
@@ -90,12 +195,12 @@ class _PageDetailState extends State<PageDetail> {
                           animating: true,
                           color: Colors.white,
                         ),
-                      );
-              },
+                      ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
