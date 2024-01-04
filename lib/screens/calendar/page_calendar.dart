@@ -253,7 +253,11 @@ class PageCalendar extends StatelessWidget {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: Text('สำหรับแพ็คเกจ Premium'),
+                                          title: Text(
+                                            'สำหรับแพ็คเกจ Premium',
+                                            style: TextStyle(
+                                                color: AppColor.mainColor),
+                                          ),
                                           content: Text(
                                               'สมัครแพ็คเกจ Premium เพื่อดูฮวงจุ้ยที่นานกว่า 1 สัปดาห์ขึ้นไป'),
                                           actions: [
@@ -283,7 +287,7 @@ class PageCalendar extends StatelessWidget {
                                     );
                                   } else {
                                     context.read<CalendarBloc>().add(SelectDate(
-                                          premiumCheck: true,
+                                          premiumCheck: state.premium,
                                           yearMonth:
                                               "${daySelect.year}-$month-",
                                           day: "${daySelect.day}",
@@ -295,7 +299,7 @@ class PageCalendar extends StatelessWidget {
                                   }
                                 } else {
                                   context.read<CalendarBloc>().add(SelectDate(
-                                        premiumCheck: true,
+                                        premiumCheck: state.premium,
                                         yearMonth: "${daySelect.year}-$month-",
                                         day: "${daySelect.day}",
                                         date: "${daySelect.year}-$month-$day",

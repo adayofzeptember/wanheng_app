@@ -30,7 +30,12 @@ void main() async {
       apiKey: useAmazon ? amazonApiKey : googleApiKey,
     );
   }
-  Intl.defaultLocale = 'th';
+  Intl.defaultLocale = 'th'; 
+
+
+
+
+  
   initializeDateFormatting();
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();

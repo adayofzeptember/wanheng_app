@@ -87,7 +87,10 @@ class _PageDetailState extends State<PageDetail> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text('สำหรับแพ็คเกจ Premium'),
+                              title: Text(
+                                'สำหรับแพ็คเกจ Premium',
+                                style: TextStyle(color: AppColor.mainColor),
+                              ),
                               content: Text(
                                   'สมัครแพ็คเกจ Premium เพื่อดูฮวงจุ้ยที่นานกว่า 1 สัปดาห์ขึ้นไป'),
                               actions: [
@@ -119,7 +122,10 @@ class _PageDetailState extends State<PageDetail> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text('คุณถึงจุดสุดเดือนนี้แล้ว'),
+                          title: Text(
+                            'คุณถึงจุดสุดเดือนนี้แล้ว',
+                            style: TextStyle(color: AppColor.mainColor),
+                          ),
                           content: Text('โปรดเลือกเดือนใหม่ที่หน้าปฏิทิน'),
                           actions: [
                             TextButton(
@@ -180,7 +186,10 @@ class _PageDetailState extends State<PageDetail> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: Text('สำหรับแพ็คเกจ Premium'),
+                            title: Text(
+                              'สำหรับแพ็คเกจ Premium',
+                              style: TextStyle(color: AppColor.mainColor),
+                            ),
                             content: Text(
                                 'สมัครแพ็คเกจ Premium เพื่อดูฮวงจุ้ยที่นานกว่า 1 สัปดาห์ขึ้นไป'),
                             actions: [
@@ -211,7 +220,10 @@ class _PageDetailState extends State<PageDetail> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: Text('คุณถึงจุดสุดเดือนนี้แล้ว'),
+                        title: Text(
+                          'คุณถึงจุดสุดเดือนนี้แล้ว',
+                          style: TextStyle(color: AppColor.mainColor),
+                        ),
                         content: Text('โปรดเลือกเดือนใหม่ที่หน้าปฏิทิน'),
                         actions: [
                           TextButton(

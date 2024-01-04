@@ -197,7 +197,7 @@ class _PageFormRegisterState extends State<PageFormRegister> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               SizedBox(
-                                width: 90,
+                                width: 100,
                                 child: RadioListTile(
                                   dense: true,
                                   contentPadding: const EdgeInsets.all(1),
@@ -220,7 +220,7 @@ class _PageFormRegisterState extends State<PageFormRegister> {
                                 ),
                               ),
                               SizedBox(
-                                width: 90,
+                                width: 100,
                                 child: RadioListTile(
                                   contentPadding: const EdgeInsets.all(0),
                                   activeColor: AppColor.mainColor,
