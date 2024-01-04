@@ -3,9 +3,11 @@ part of 'calendar_bloc.dart';
 // ignore: must_be_immutable
 class CalendarState extends Equatable {
   bool loading;
+  bool premium;
   dynamic predictData;
   String dateSelect;
   String dayOnly;
+
   String yearMonthOnly;
   int dayPremiumCheckPlus;
   int dayPremiumCheckMinus;
@@ -14,6 +16,7 @@ class CalendarState extends Equatable {
       {required this.loading,
       required this.predictData,
       required this.dateSelect,
+      required this.premium,
       required this.dayOnly,
       required this.dayPremiumCheckPlus,
       required this.dayPremiumCheckMinus,
@@ -21,6 +24,7 @@ class CalendarState extends Equatable {
 
   CalendarState copyWith({
     bool? loading,
+    bool? premium,
     dynamic predictData,
     int? dayPremiumCheckPlus,
     int? dayPremiumCheckMinus,
@@ -30,6 +34,7 @@ class CalendarState extends Equatable {
   }) {
     return CalendarState(
       dayOnly: dayOnly ?? this.dayOnly,
+      premium: premium ?? this.premium,
       dayPremiumCheckPlus: dayPremiumCheckPlus ?? this.dayPremiumCheckPlus,
       dayPremiumCheckMinus: dayPremiumCheckMinus ?? this.dayPremiumCheckMinus,
       yearMonthOnly: yearMonthOnly ?? this.yearMonthOnly,
@@ -42,6 +47,7 @@ class CalendarState extends Equatable {
   @override
   List<Object> get props => [
         loading,
+        premium,
         predictData,
         dayPremiumCheckMinus,
         yearMonthOnly,

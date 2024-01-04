@@ -11,14 +11,14 @@ abstract class CalendarEvent extends Equatable {
 
 class SelectDate extends CalendarEvent {
   String date, strDate, day, yearMonth;
+  bool? premiumCheck;
   SelectDate({
     required this.date,
+    this.premiumCheck,
     required this.strDate,
     required this.day,
     required this.yearMonth,
   });
 }
 
-class GetTodayNumber extends CalendarEvent {
-  
-}
+class GetTodayNumber extends CalendarEvent {}

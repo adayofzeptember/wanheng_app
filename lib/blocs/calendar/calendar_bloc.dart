@@ -13,6 +13,7 @@ part 'calendar_state.dart';
 class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
   CalendarBloc()
       : super(CalendarState(
+          premium: false,
           dayPremiumCheckPlus: 0,
           dayPremiumCheckMinus: 0,
           yearMonthOnly: '',
@@ -24,6 +25,7 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
     on<SelectDate>((event, emit) async {
       emit(state.copyWith(
           loading: true,
+          premium: event.premiumCheck,
           dateSelect: event.strDate,
           dayOnly: event.day,
           yearMonthOnly: event.yearMonth));
@@ -100,7 +102,6 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
       final now = DateTime.now();
       emit(state.copyWith(dayPremiumCheckPlus: now.day + 6));
       emit(state.copyWith(dayPremiumCheckMinus: now.day - 6));
-      
     });
   }
 }

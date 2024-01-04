@@ -48,7 +48,6 @@ class _PageDetailState extends State<PageDetail> {
               //!+
               IconButton(
                 onPressed: () {
-                  print(state.premium);
                   int dayPlus = int.parse(state.dayOnly) + 1;
                   String resultDay =
                       (dayPlus < 10) ? "0${dayPlus}" : dayPlus.toString();
@@ -66,7 +65,7 @@ class _PageDetailState extends State<PageDetail> {
                       parsedNewDate.toString().split('-');
 
                   if (check1Bloc[1] == check2NewMonth[1]) {
-                    if (state.premium) {
+                    if (int.parse(state.dayOnly) < state.dayPremiumCheckPlus) {
                       context.read<CalendarBloc>().add(SelectDate(
                             day: dayPlus.toString(),
                             yearMonth: state.yearMonthOnly,
@@ -74,45 +73,34 @@ class _PageDetailState extends State<PageDetail> {
                             strDate: formatterDate.format(parsedNewDate),
                           ));
                     } else {
-                      if (int.parse(state.dayOnly) <
-                          state.dayPremiumCheckPlus) {
-                        context.read<CalendarBloc>().add(SelectDate(
-                              day: dayPlus.toString(),
-                              yearMonth: state.yearMonthOnly,
-                              date: finalNewDate,
-                              strDate: formatterDate.format(parsedNewDate),
-                            ));
-                      } else {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text('สำหรับแพ็คเกจ Premium'),
-                              content: Text(
-                                  'สมัครแพ็คเกจ Premium เพื่อดูฮวงจุ้ยที่นานกว่า 1 สัปดาห์ขึ้นไป'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text(
-                                    'ปิด',
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('สำหรับแพ็คเกจ Premium'),
+                            content: Text(
+                                'สมัครแพ็คเกจ Premium เพื่อดูฮวงจุ้ยที่นานกว่า 1 สัปดาห์ขึ้นไป'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text(
+                                  'ปิด',
+                                  style: TextStyle(color: Colors.grey),
                                 ),
-                                TextButton(
-                                  onPressed: () => Navigator.push(
-                                      context, pageSettingPayment()),
-                                  child: Text(
-                                    'การสมัครแพ็กเกจ',
-                                    style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 246, 193, 0)),
-                                  ),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.push(
+                                    context, pageSettingPayment()),
+                                child: Text(
+                                  'การสมัครแพ็กเกจ',
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 246, 193, 0)),
                                 ),
-                              ],
-                            );
-                          },
-                        );
-                      }
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     }
                   } else {
                     showDialog(
@@ -160,7 +148,7 @@ class _PageDetailState extends State<PageDetail> {
                 var formatterDate = DateFormat.yMMMMEEEEd();
 
                 if (check1Bloc[1] == check2NewMonth[1]) {
-                  if (state.premium) {
+                  if (int.parse(state.dayOnly) > state.dayPremiumCheckMinus) {
                     context.read<CalendarBloc>().add(SelectDate(
                           day: dayMinus.toString(),
                           yearMonth: state.yearMonthOnly,
@@ -168,43 +156,34 @@ class _PageDetailState extends State<PageDetail> {
                           strDate: formatterDate.format(parsedNewDate),
                         ));
                   } else {
-                    if (int.parse(state.dayOnly) > state.dayPremiumCheckMinus) {
-                      context.read<CalendarBloc>().add(SelectDate(
-                            day: dayMinus.toString(),
-                            yearMonth: state.yearMonthOnly,
-                            date: finalNewDate,
-                            strDate: formatterDate.format(parsedNewDate),
-                          ));
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text('สำหรับแพ็คเกจ Premium'),
-                            content: Text(
-                                'สมัครแพ็คเกจ Premium เพื่อดูฮวงจุ้ยที่นานกว่า 1 สัปดาห์ขึ้นไป'),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text(
-                                  'ปิด',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('สำหรับแพ็คเกจ Premium'),
+                          content: Text(
+                              'สมัครแพ็คเกจ Premium เพื่อดูฮวงจุ้ยที่นานกว่า 1 สัปดาห์ขึ้นไป'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text(
+                                'ปิด',
+                                style: TextStyle(color: Colors.grey),
                               ),
-                              TextButton(
-                                onPressed: () => Navigator.push(
-                                    context, pageSettingPayment()),
-                                child: Text(
-                                  'การสมัครแพ็กเกจ',
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 246, 193, 0)),
-                                ),
+                            ),
+                            TextButton(
+                              onPressed: () =>
+                                  Navigator.push(context, pageSettingPayment()),
+                              child: Text(
+                                'การสมัครแพ็กเกจ',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 246, 193, 0)),
                               ),
-                            ],
-                          );
-                        },
-                      );
-                    }
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   }
                 } else {
                   showDialog(

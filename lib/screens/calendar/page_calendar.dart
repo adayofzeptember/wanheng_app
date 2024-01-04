@@ -282,8 +282,8 @@ class PageCalendar extends StatelessWidget {
                                       },
                                     );
                                   } else {
-                                   
                                     context.read<CalendarBloc>().add(SelectDate(
+                                          premiumCheck: true,
                                           yearMonth:
                                               "${daySelect.year}-$month-",
                                           day: "${daySelect.day}",
@@ -294,8 +294,8 @@ class PageCalendar extends StatelessWidget {
                                     Navigator.push(context, pageDetail());
                                   }
                                 } else {
-                              
                                   context.read<CalendarBloc>().add(SelectDate(
+                                        premiumCheck: true,
                                         yearMonth: "${daySelect.year}-$month-",
                                         day: "${daySelect.day}",
                                         date: "${daySelect.year}-$month-$day",
