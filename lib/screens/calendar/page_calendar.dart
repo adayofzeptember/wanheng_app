@@ -5,6 +5,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:wanheng_app/blocs/calendar/calendar_bloc.dart';
 import 'package:wanheng_app/routes/calendar.dart';
 import 'package:wanheng_app/routes/payment.dart';
+import 'package:wanheng_app/screens/calendar/month_coverter.dart';
 import '../../blocs/account/account_bloc.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/config.dart';
@@ -237,7 +238,7 @@ class PageCalendar extends StatelessWidget {
                                     ? "0${daySelect.day}"
                                     : "${daySelect.day}";
                                 var formatterDate = DateFormat.yMMMMEEEEd();
-
+                                print(monthCovertoThai(month));
                                 if (!state.premium) {
                                   final now = DateTime.now();
                                   final today = DateTime(
@@ -252,9 +253,9 @@ class PageCalendar extends StatelessWidget {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: Text('ต้องการปลดล็อก Premium'),
+                                          title: Text('สำหรับแพ็คเกจ Premium'),
                                           content: Text(
-                                              'สมัครPremium เพื่อดูฮวงจุ้ยที่นานกว่า 1 สัปดาห์ขึ้นไป'),
+                                              'สมัครแพ็คเกจ Premium เพื่อดูฮวงจุ้ยที่นานกว่า 1 สัปดาห์ขึ้นไป'),
                                           actions: [
                                             TextButton(
                                               onPressed: () =>
@@ -281,6 +282,7 @@ class PageCalendar extends StatelessWidget {
                                       },
                                     );
                                   } else {
+                                   
                                     context.read<CalendarBloc>().add(SelectDate(
                                           yearMonth:
                                               "${daySelect.year}-$month-",
@@ -292,6 +294,7 @@ class PageCalendar extends StatelessWidget {
                                     Navigator.push(context, pageDetail());
                                   }
                                 } else {
+                              
                                   context.read<CalendarBloc>().add(SelectDate(
                                         yearMonth: "${daySelect.year}-$month-",
                                         day: "${daySelect.day}",

@@ -59,36 +59,62 @@ class _PageDetailState extends State<PageDetail> {
 
                   var formatterDate = DateFormat.yMMMMEEEEd();
                   //* เช็คไม่ให้เกิน premium
-                  if (int.parse(state.dayOnly) < state.dayPremiumCheckPlus) {
-                    context.read<CalendarBloc>().add(SelectDate(
-                          day: dayPlus.toString(),
-                          yearMonth: state.yearMonthOnly,
-                          date: finalNewDate,
-                          strDate: formatterDate.format(parsedNewDate),
-                        ));
+                  List<String> check1Bloc =
+                      state.yearMonthOnly.toString().split('-');
+                  List<String> check2NewMonth =
+                      parsedNewDate.toString().split('-');
+                  //*
+                  if (check1Bloc[1] == check2NewMonth[1]) {
+                    if (int.parse(state.dayOnly) < state.dayPremiumCheckPlus) {
+                      context.read<CalendarBloc>().add(SelectDate(
+                            day: dayPlus.toString(),
+                            yearMonth: state.yearMonthOnly,
+                            date: finalNewDate,
+                            strDate: formatterDate.format(parsedNewDate),
+                          ));
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('สำหรับแพ็คเกจ Premium'),
+                            content: Text(
+                                'สมัครแพ็คเกจ Premium เพื่อดูฮวงจุ้ยที่นานกว่า 1 สัปดาห์ขึ้นไป'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text(
+                                  'ปิด',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.push(
+                                    context, pageSettingPayment()),
+                                child: Text(
+                                  'การสมัครแพ็กเกจ',
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 246, 193, 0)),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
                   } else {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text('ต้องการปลดล็อก Premium'),
-                          content: Text(
-                              'สมัครPremium เพื่อดูฮวงจุ้ยที่นานกว่า 1 สัปดาห์ขึ้นไป'),
+                          title: Text('คุณถึงจุดสุดเดือนนี้แล้ว'),
+                          content: Text('โปรดเลือกเดือนใหม่ที่หน้าปฏิทิน'),
                           actions: [
                             TextButton(
                               onPressed: () => Navigator.pop(context),
                               child: Text(
                                 'ปิด',
                                 style: TextStyle(color: Colors.grey),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () =>
-                                  Navigator.push(context, pageSettingPayment()),
-                              child: Text(
-                                'การสมัครแพ็กเกจ',
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 246, 193, 0)),
                               ),
                             ),
                           ],
@@ -114,15 +140,71 @@ class _PageDetailState extends State<PageDetail> {
 
                 DateTime parsedNewDate =
                     DateFormat('yyyy-MM-dd').parse(finalNewDate);
-
+                //*
+                List<String> check1Bloc =
+                    state.yearMonthOnly.toString().split('-');
+                List<String> check2NewMonth =
+                    parsedNewDate.toString().split('-');
                 var formatterDate = DateFormat.yMMMMEEEEd();
 
-                context.read<CalendarBloc>().add(SelectDate(
-                      day: dayMinus.toString(),
-                      yearMonth: state.yearMonthOnly,
-                      date: finalNewDate,
-                      strDate: formatterDate.format(parsedNewDate),
-                    ));
+                if (check1Bloc[1] == check2NewMonth[1]) {
+                  if (int.parse(state.dayOnly) > state.dayPremiumCheckMinus) {
+                    context.read<CalendarBloc>().add(SelectDate(
+                          day: dayMinus.toString(),
+                          yearMonth: state.yearMonthOnly,
+                          date: finalNewDate,
+                          strDate: formatterDate.format(parsedNewDate),
+                        ));
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('สำหรับแพ็คเกจ Premium'),
+                          content: Text(
+                              'สมัครแพ็คเกจ Premium เพื่อดูฮวงจุ้ยที่นานกว่า 1 สัปดาห์ขึ้นไป'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text(
+                                'ปิด',
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () =>
+                                  Navigator.push(context, pageSettingPayment()),
+                              child: Text(
+                                'การสมัครแพ็กเกจ',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 246, 193, 0)),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('คุณถึงจุดสุดเดือนนี้แล้ว'),
+                        content: Text('โปรดเลือกเดือนใหม่ที่หน้าปฏิทิน'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text(
+                              'ปิด',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
               },
               icon: const Icon(
                 Icons.arrow_back_ios,

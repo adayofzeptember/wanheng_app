@@ -14,6 +14,7 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
   CalendarBloc()
       : super(CalendarState(
           dayPremiumCheckPlus: 0,
+          dayPremiumCheckMinus: 0,
           yearMonthOnly: '',
           dayOnly: "",
           loading: false,
@@ -85,7 +86,7 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
               ),
             ),
           );
-          print(setData.top.element.element);
+          //print(setData.top.element.element);
           emit(state.copyWith(predictData: setData, loading: false));
         }
       } on Exception catch (e) {
@@ -98,8 +99,8 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
     on<GetTodayNumber>((event, emit) {
       final now = DateTime.now();
       emit(state.copyWith(dayPremiumCheckPlus: now.day + 6));
-
-      print('Plus to : ' + state.dayPremiumCheckPlus.toString());
+      emit(state.copyWith(dayPremiumCheckMinus: now.day - 6));
+      
     });
   }
 }

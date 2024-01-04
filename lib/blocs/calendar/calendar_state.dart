@@ -8,7 +8,7 @@ class CalendarState extends Equatable {
   String dayOnly;
   String yearMonthOnly;
   int dayPremiumCheckPlus;
-
+  int dayPremiumCheckMinus;
 
   CalendarState(
       {required this.loading,
@@ -16,14 +16,14 @@ class CalendarState extends Equatable {
       required this.dateSelect,
       required this.dayOnly,
       required this.dayPremiumCheckPlus,
-    
+      required this.dayPremiumCheckMinus,
       required this.yearMonthOnly});
 
   CalendarState copyWith({
     bool? loading,
     dynamic predictData,
     int? dayPremiumCheckPlus,
-
+    int? dayPremiumCheckMinus,
     String? dayOnly,
     String? dateSelect,
     String? yearMonthOnly,
@@ -31,7 +31,7 @@ class CalendarState extends Equatable {
     return CalendarState(
       dayOnly: dayOnly ?? this.dayOnly,
       dayPremiumCheckPlus: dayPremiumCheckPlus ?? this.dayPremiumCheckPlus,
- 
+      dayPremiumCheckMinus: dayPremiumCheckMinus ?? this.dayPremiumCheckMinus,
       yearMonthOnly: yearMonthOnly ?? this.yearMonthOnly,
       loading: loading ?? this.loading,
       predictData: predictData ?? this.predictData,
@@ -43,9 +43,9 @@ class CalendarState extends Equatable {
   List<Object> get props => [
         loading,
         predictData,
+        dayPremiumCheckMinus,
         yearMonthOnly,
         dateSelect,
-       
         dayOnly,
         dayPremiumCheckPlus,
       ];
