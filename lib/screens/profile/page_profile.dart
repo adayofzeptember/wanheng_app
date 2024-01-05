@@ -190,8 +190,10 @@ class PageProfile extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 5),
+                            
                           Center(
                             child: SizedBox(
+                              
                               width: 200,
                               child: Btn(
                                 title: (state.premium) ? 'การชำระเงิน' : "การสมัครแพ็กเกจ",
@@ -202,6 +204,8 @@ class PageProfile extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 30),
+                          
+                          Text('v. 1.0.8+21')
                         ],
                       ),
                     ),
