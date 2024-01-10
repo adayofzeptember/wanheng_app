@@ -16,9 +16,24 @@ class PageDetail extends StatefulWidget {
 }
 
 class _PageDetailState extends State<PageDetail> {
+  
+  // showInstruction() {
+  //   Future.delayed(Duration(milliseconds: 1000), () {
+  //     showDialog(
+  //         context: context,
+  //         builder: (context) {
+  //           Future.delayed(Duration(seconds: 5), () {
+  //             Navigator.of(context).pop(true);
+  //           });
+  //           return Column();
+  //         });
+  //   });
+  // }
+
   @override
   void initState() {
     context.read<CalendarBloc>().add(GetTodayNumber());
+ 
     super.initState();
   }
 
@@ -28,6 +43,7 @@ class _PageDetailState extends State<PageDetail> {
     double h = MediaQuery.of(context).size.height;
     return BlocBuilder<CalendarBloc, CalendarState>(
       builder: (context, state) {
+      
         return Scaffold(
           appBar: AppBar(
             backgroundColor: const Color.fromARGB(255, 132, 2, 2),
@@ -44,13 +60,10 @@ class _PageDetailState extends State<PageDetail> {
                 );
               },
             ),
-          
-         
-            leading: 
-            IconButton(
+            leading: IconButton(
               onPressed: () {
+                // _ff(context);
                 Navigator.pop(context);
-            
               },
               icon: const Icon(
                 Icons.arrow_back_ios,
@@ -59,12 +72,12 @@ class _PageDetailState extends State<PageDetail> {
             ),
             centerTitle: true,
           ),
-          backgroundColor: AppColor.mainColor,
+          backgroundColor: const Color.fromARGB(255, 224, 224, 224),
           body: GestureDetector(
             onHorizontalDragEnd: (details) {
               // Swiping in right direction.
               if (details.primaryVelocity! > 0) {
-                  int dayMinus = int.parse(state.dayOnly) - 1;
+                int dayMinus = int.parse(state.dayOnly) - 1;
                 String resultDay =
                     (dayMinus < 10) ? "0${dayMinus}" : dayMinus.toString();
 
@@ -148,32 +161,36 @@ class _PageDetailState extends State<PageDetail> {
                             ),
                           ),
                         ],
+                        
                       );
                     },
                   );
                 }
               }
-
               // Swiping in left direction.
               if (details.primaryVelocity! < 0) {
-                   int dayPlus = int.parse(state.dayOnly) + 1;
-                  String resultDay =
-                      (dayPlus < 10) ? "0${dayPlus}" : dayPlus.toString();
+                int dayPlus = int.parse(state.dayOnly) + 1;
+                String resultDay =
+                    (dayPlus < 10) ? "0${dayPlus}" : dayPlus.toString();
+                String finalNewDate = state.yearMonthOnly + resultDay;
+                DateTime parsedNewDate =
+                    DateFormat('yyyy-MM-dd').parse(finalNewDate);
+                var formatterDate = DateFormat.yMMMMEEEEd();
+                List<String> check1Bloc =
+                    state.yearMonthOnly.toString().split('-');
+                List<String> check2NewMonth =
+                    parsedNewDate.toString().split('-');
 
-                  String finalNewDate = state.yearMonthOnly + resultDay;
-
-                  DateTime parsedNewDate =
-                      DateFormat('yyyy-MM-dd').parse(finalNewDate);
-
-                  var formatterDate = DateFormat.yMMMMEEEEd();
-
-                  List<String> check1Bloc =
-                      state.yearMonthOnly.toString().split('-');
-                  List<String> check2NewMonth =
-                      parsedNewDate.toString().split('-');
-
-                  if (check1Bloc[1] == check2NewMonth[1]) {
-                    if (state.premium) {
+                if (check1Bloc[1] == check2NewMonth[1]) {
+                  if (state.premium) {
+                    context.read<CalendarBloc>().add(SelectDate(
+                          day: dayPlus.toString(),
+                          yearMonth: state.yearMonthOnly,
+                          date: finalNewDate,
+                          strDate: formatterDate.format(parsedNewDate),
+                        ));
+                  } else {
+                    if (int.parse(state.dayOnly) < state.dayPremiumCheckPlus) {
                       context.read<CalendarBloc>().add(SelectDate(
                             day: dayPlus.toString(),
                             yearMonth: state.yearMonthOnly,
@@ -181,72 +198,62 @@ class _PageDetailState extends State<PageDetail> {
                             strDate: formatterDate.format(parsedNewDate),
                           ));
                     } else {
-                      if (int.parse(state.dayOnly) <
-                          state.dayPremiumCheckPlus) {
-                        context.read<CalendarBloc>().add(SelectDate(
-                              day: dayPlus.toString(),
-                              yearMonth: state.yearMonthOnly,
-                              date: finalNewDate,
-                              strDate: formatterDate.format(parsedNewDate),
-                            ));
-                      } else {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text(
-                                'สำหรับแพ็คเกจ Premium',
-                                style: TextStyle(color: AppColor.mainColor),
-                              ),
-                              content: Text(
-                                  'สมัครแพ็คเกจ Premium เพื่อดูฮวงจุ้ยที่นานกว่า 1 สัปดาห์ขึ้นไป'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text(
-                                    'ปิด',
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () => Navigator.push(
-                                      context, pageSettingPayment()),
-                                  child: Text(
-                                    'การสมัครแพ็กเกจ',
-                                    style: TextStyle(
-                                        color:
-                                            Color.fromARGB(255, 246, 193, 0)),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }
-                    }
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text(
-                            'คุณถึงจุดสุดเดือนนี้แล้ว',
-                            style: TextStyle(color: AppColor.mainColor),
-                          ),
-                          content: Text('โปรดเลือกเดือนใหม่ที่หน้าปฏิทิน'),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: Text(
-                                'ปิด',
-                                style: TextStyle(color: Colors.grey),
-                              ),
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text(
+                              'สำหรับแพ็คเกจ Premium',
+                              style: TextStyle(color: AppColor.mainColor),
                             ),
-                          ],
-                        );
-                      },
-                    );
+                            content: Text(
+                                'สมัครแพ็คเกจ Premium เพื่อดูฮวงจุ้ยที่นานกว่า 1 สัปดาห์ขึ้นไป'),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text(
+                                  'ปิด',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.push(
+                                    context, pageSettingPayment()),
+                                child: Text(
+                                  'การสมัครแพ็กเกจ',
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 246, 193, 0)),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
                   }
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(
+                          'คุณถึงจุดสุดเดือนนี้แล้ว',
+                          style: TextStyle(color: AppColor.mainColor),
+                        ),
+                        content: Text('โปรดเลือกเดือนใหม่ที่หน้าปฏิทิน'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text(
+                              'ปิด',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
               }
             },
             child: Container(
@@ -267,7 +274,6 @@ class _PageDetailState extends State<PageDetail> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                          
                             CardDetail(
                               isTop: true,
                               title: 'ราศีบน',

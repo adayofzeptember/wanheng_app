@@ -21,7 +21,7 @@ class _NavigatorBarState extends State<NavigatorBar> {
     PageCalendar(),
     PageMainCompass(),
     PageProfile(),
-  ];
+  ]; 
   @override
   void initState() {
     _selectedIndex = widget.indexPage;

@@ -205,7 +205,7 @@ class PageProfile extends StatelessWidget {
                           ),
                           const SizedBox(height: 30),
                           
-                          Text('v. 1.0.8+21')
+                          Text('v. 1.0.8+22')
                         ],
                       ),
                     ),
