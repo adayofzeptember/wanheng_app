@@ -69,6 +69,7 @@ class PageCalendar extends StatelessWidget {
                       height: 100,
                       child: BlocBuilder<AccountBloc, AccountState>(
                         builder: (context, state) {
+                     
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -130,7 +131,7 @@ class PageCalendar extends StatelessWidget {
                                                 AppImage.diabem,
                                                 width: 16,
                                               ),
-                                              Text(
+                                              const Text(
                                                 ' Premium member',
                                                 style: TextStyle(
                                                   fontSize: 12,
@@ -239,7 +240,7 @@ class PageCalendar extends StatelessWidget {
                                     : "${daySelect.day}";
                                 var formatterDate = DateFormat.yMMMMEEEEd();
                                 print(monthCovertoThai(month));
-                                if (!state.premium) {
+                                if (state.premium == false) {
                                   final now = DateTime.now();
                                   final today = DateTime(
                                       now.year, now.month, now.day + 6);

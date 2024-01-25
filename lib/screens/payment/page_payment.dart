@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -43,7 +42,8 @@ class _PageSettingPaymentState extends State<PageSettingPayment> {
     final customerInfo = await Purchases.getCustomerInfo();
     print(customerInfo.allPurchasedProductIdentifiers);
 
-    Purchases.addReadyForPromotedProductPurchaseListener((productID, startPurchase) async {
+    Purchases.addReadyForPromotedProductPurchaseListener(
+        (productID, startPurchase) async {
       print("*********************************************************");
       print('Received readyForPromotedProductPurchase event for '
           'productID: $productID');
@@ -72,8 +72,10 @@ class _PageSettingPaymentState extends State<PageSettingPayment> {
       offeringAll = await Purchases.getOfferings();
       // var offeringProductTest;
       // offeringProductTest = offeringAll?.getOffering("Subscriptions")?.getPackage("Monthly Testing");
-      offeringMonthly = offeringAll?.getOffering("Subscriptions")?.getPackage("\$rc_monthly");
-      offeringYearly = offeringAll?.getOffering("Subscriptions")?.getPackage("\$rc_annual");
+      offeringMonthly =
+          offeringAll?.getOffering("Subscriptions")?.getPackage("\$rc_monthly");
+      offeringYearly =
+          offeringAll?.getOffering("Subscriptions")?.getPackage("\$rc_annual");
 
       setState(() {
         // productTest = offeringProductTest;
@@ -113,7 +115,8 @@ class _PageSettingPaymentState extends State<PageSettingPayment> {
                   if (state.premium)
                     Text(
                       "Premium จะหมดอายุ " + state.expirationDate,
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                     )
                   else
                     BgPackage(
@@ -143,7 +146,9 @@ class _PageSettingPaymentState extends State<PageSettingPayment> {
                         //         "เมื่อถึงวันหมดอายุจะทำการต่ออายุอัตโนมัติิ ${(productTest!.storeProduct.subscriptionPeriod == 'P1M') ? '1 เดือน' : '1 ปี'} สามารถยกเลิกได้ตลอดเวลา",
                         //   ),
                         PackageWidget(
-                          selected: (indexPackage == 2) ? AppColor.premium : Colors.grey.shade300,
+                          selected: (indexPackage == 2)
+                              ? AppColor.premium
+                              : Colors.grey.shade300,
                           w: w,
                           ontap: () {
                             selectedPackage = productMonthly;
@@ -153,11 +158,14 @@ class _PageSettingPaymentState extends State<PageSettingPayment> {
                           type: '${productMonthly!.storeProduct.title} ',
                           price:
                               "ราคา ${productMonthly!.storeProduct.priceString}/${(productMonthly!.storeProduct.subscriptionPeriod == "P1M") ? "เดือน" : "ปี"}",
-                          detail: "ครั้งต่อไปต่ออายุที่ราคา ราคา ${productMonthly!.storeProduct.priceString}\n"
+                          detail:
+                              "ครั้งต่อไปต่ออายุที่ราคา ราคา ${productMonthly!.storeProduct.priceString}\n"
                               "เมื่อถึงวันหมดอายุจะทำการต่ออายุอัตโนมัติิ ${(productMonthly!.storeProduct.subscriptionPeriod == 'P1M') ? '1 เดือน' : '1 ปี'} สามารถยกเลิกได้ตลอดเวลา",
                         ),
                         PackageWidget(
-                          selected: (indexPackage == 3) ? AppColor.premium : Colors.grey.shade300,
+                          selected: (indexPackage == 3)
+                              ? AppColor.premium
+                              : Colors.grey.shade300,
                           w: w,
                           ontap: () {
                             selectedPackage = productYearly;
@@ -167,7 +175,8 @@ class _PageSettingPaymentState extends State<PageSettingPayment> {
                           type: '${productYearly!.storeProduct.title} ',
                           price:
                               "ราคา ${productYearly!.storeProduct.priceString}/${(productYearly!.storeProduct.subscriptionPeriod == "P1M") ? "เดือน" : "ปี"}",
-                          detail: "ครั้งต่อไปต่ออายุที่ราคา ราคา ${productYearly!.storeProduct.priceString}\n"
+                          detail:
+                              "ครั้งต่อไปต่ออายุที่ราคา ราคา ${productYearly!.storeProduct.priceString}\n"
                               "เมื่อถึงวันหมดอายุจะทำการต่ออายุอัตโนมัติิ ${(productYearly!.storeProduct.subscriptionPeriod == 'P1M') ? '1 เดือน' : '1 ปี'} สามารถยกเลิกได้ตลอดเวลา",
                         ),
                       ],
@@ -183,7 +192,8 @@ class _PageSettingPaymentState extends State<PageSettingPayment> {
                       SizedBox(height: 10),
                       Row(
                         children: [
-                          Icon(FontAwesomeIcons.solidCompass, color: Color.fromARGB(255, 249, 213, 82)),
+                          Icon(FontAwesomeIcons.solidCompass,
+                              color: Color.fromARGB(255, 249, 213, 82)),
                           SizedBox(width: 8),
                           Text(
                             "เข็มทิศ",
@@ -194,7 +204,8 @@ class _PageSettingPaymentState extends State<PageSettingPayment> {
                       SizedBox(height: 10),
                       Row(
                         children: [
-                          Icon(FontAwesomeIcons.calendarCheck, color: Color.fromARGB(255, 249, 213, 82)),
+                          Icon(FontAwesomeIcons.calendarCheck,
+                              color: Color.fromARGB(255, 249, 213, 82)),
                           SizedBox(width: 8),
                           Text(
                             "ปฏิทินฮวงจุ้ยทั้งหมด",
@@ -219,7 +230,7 @@ class _PageSettingPaymentState extends State<PageSettingPayment> {
                                 "\n● ยกเลิกการต่ออายุ: หากต้องการยกเลิการต่ออายุ กรุณากดไปที่แอป Play Store และที่การชำระเงินและการสมัครใช้บริการ หรือกดที่เมนู การชำระเงินและการใช้บริการ เพื่อปิดระบบการต่ออายุอัตโนมัติก่อนี่จะถึงเวลาหมดอายุ"
                                 "\n● ค่าธรรมเนียมต่ออายุ: บัญชี Google Play Store จะหักค่าธรรมเนียมโดยอัตโนมัติเมื่อสิ้นสุดช่วงเวลาของการสมัครรับข้อมูลแต่ละช่วง"
                             : "● การชำระเงิน: ภายหลังผู้ใช้ยืนยันการซื้อและชำระเงินจะถูกบันทึกในบัญชี iTunes"
-                                "\n● ยกเลิกการต่ออายุ: หากต้องการยกเลิการต่ออายุ กรุณาไปที่การจัดการตั้งค่า iTunes/Apple ID เพื่ิอปิดระบบการต่ออายุอัตโนมัติก่อน 24 ชั่วโมงที่จะถึงเวลาหมดอายุ หากยกเลิกภายในภาย 24 ชั่วโมงหมดอายุ ค่าธรรมเนียมจะถูกเรียกเก็บ"
+                                "\n● ยกเลิกการต่ออายุ: หากต้องการยกเลิการต่ออายุ กรุณาไปที่การจัดการตั้งค่า iTunes/Apple ID เพื่อปิดระบบการต่ออายุอัตโนมัติก่อน 24 ชั่วโมงที่จะถึงเวลาหมดอายุ หากยกเลิกภายในภาย 24 ชั่วโมงหมดอายุ ค่าธรรมเนียมจะถูกเรียกเก็บ"
                                 "\n● ค่าธรรมเนียมการต่ออายุ: บัญชี iTunes Apple จะหักค่าธรรมเนียมภายใน 24 ชั่วโมงก่อนหมดอายุ หลังหักค่าธรรมเนียมเรียบร้อยแล้ว ระยะเวลาสมาชิกจะถูกต่ออายุไปอีกหนึ่งรอบ",
                         style: TextStyle(color: Colors.grey.shade700),
                       ),
@@ -262,7 +273,8 @@ class _PageSettingPaymentState extends State<PageSettingPayment> {
                       if (Platform.isAndroid)
                         TextButton(
                           onPressed: () async {
-                            launchUrl(Uri.parse('https://play.google.com/store/account/subscriptions'));
+                            launchUrl(Uri.parse(
+                                'https://play.google.com/store/account/subscriptions'));
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -292,23 +304,30 @@ class _PageSettingPaymentState extends State<PageSettingPayment> {
                                   actions: <Widget>[
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                        textStyle: Theme.of(context).textTheme.labelLarge,
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge,
                                       ),
                                       child: const Text(
                                         'ไปที่ตั้งค่ายกเลิกการต่ออายุ',
-                                        style: TextStyle(color: AppColor.mainColor),
+                                        style: TextStyle(
+                                            color: AppColor.mainColor),
                                       ),
-                                      onPressed: () => launchUrl(Uri.parse("https://apps.apple.com/account/subscriptions")),
+                                      onPressed: () => launchUrl(Uri.parse(
+                                          "https://apps.apple.com/account/subscriptions")),
                                     ),
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                        textStyle: Theme.of(context).textTheme.labelLarge,
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge,
                                       ),
                                       child: const Text(
                                         'ออก',
                                         style: TextStyle(color: AppColor.title),
                                       ),
-                                      onPressed: () => Navigator.of(context).pop(),
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
                                     ),
                                   ],
                                 );
@@ -331,23 +350,7 @@ class _PageSettingPaymentState extends State<PageSettingPayment> {
                       Divider(),
                       TextButton(
                         onPressed: () async {
-                          EasyLoading.show(maskType: EasyLoadingMaskType.black, status: 'Loading...');
-                          try {
-                            CustomerInfo customerInfo = await Purchases.restorePurchases();
-                            // ... check restored purchaserInfo to see if entitlement is now active
-
-                            if (customerInfo.entitlements.active.isNotEmpty) {
-                              // Navigator.pushReplacement(context, pageLoading());
-                              context.read<AccountBloc>().add(LoadAccount(context: context, firstLoad: true));
-                            } else {
-                              EasyLoading.showInfo("Item not found!");
-
-                              print("no premium");
-                            }
-                          } on PlatformException catch (e) {
-                            EasyLoading.showInfo("Something went wrong\n${e.message}");
-                            print(e);
-                          }
+                          // EasyLoading.show(maskType: EasyLoadingMask e));
                         },
                         child: Text(
                           "กู้คืนการซื้อ",
@@ -369,13 +372,19 @@ class _PageSettingPaymentState extends State<PageSettingPayment> {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(8, 0, 8, 20),
             child: Btn(
-              title: 'ชำระเงิน ${selectedPackage != null ? selectedPackage?.storeProduct.title : ""}',
+              title:
+                  'ชำระเงิน ${selectedPackage != null ? selectedPackage?.storeProduct.title : ""}',
               onClick: () async {
                 if (selectedPackage != null) {
+                  //!
                   try {
-                    EasyLoading.show(status: "Loading...", maskType: EasyLoadingMaskType.black);
-                    final customerInfo = await Purchases.purchasePackage(selectedPackage!);
-                    final isPro = customerInfo.entitlements.active.containsKey(entitlementKey);
+                    EasyLoading.show(
+                        status: "โปรดรอสักครู่..",
+                        maskType: EasyLoadingMaskType.black);
+                    final customerInfo =
+                        await Purchases.purchasePackage(selectedPackage!);
+                    final isPro = customerInfo.entitlements.active
+                        .containsKey(entitlementKey);
                     if (isPro) {
                       EasyLoading.dismiss();
                       print("*****************************");
@@ -384,13 +393,16 @@ class _PageSettingPaymentState extends State<PageSettingPayment> {
                     }
                   } on PlatformException catch (e) {
                     final errorCode = PurchasesErrorHelper.getErrorCode(e);
-                    if (errorCode == PurchasesErrorCode.purchaseCancelledError) {
+                    if (errorCode ==
+                        PurchasesErrorCode.purchaseCancelledError) {
                       EasyLoading.dismiss();
                       print('User cancelled');
-                    } else if (errorCode == PurchasesErrorCode.purchaseNotAllowedError) {
+                    } else if (errorCode ==
+                        PurchasesErrorCode.purchaseNotAllowedError) {
                       EasyLoading.showError("User not allowed to purchase");
                       print('User not allowed to purchase');
-                    } else if (errorCode == PurchasesErrorCode.paymentPendingError) {
+                    } else if (errorCode ==
+                        PurchasesErrorCode.paymentPendingError) {
                       EasyLoading.showError("${errorCode}");
                       print('Payment is pending');
                     }
@@ -412,7 +424,10 @@ class _PageSettingPaymentState extends State<PageSettingPayment> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        leading: IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.arrow_back_ios), color: Colors.black),
+        leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(Icons.arrow_back_ios),
+            color: Colors.black),
         elevation: 0,
         backgroundColor: const Color.fromARGB(250, 250, 250, 250),
         title: Text(
@@ -421,7 +436,7 @@ class _PageSettingPaymentState extends State<PageSettingPayment> {
         ),
       ),
       body: const Center(
-        child: Text('Loading...'),
+        child: Text('โปรดรอสักครู่..'),
       ),
     );
   }

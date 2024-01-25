@@ -31,6 +31,7 @@ class _PageLoginState extends State<PageLogin> {
   var passwordController = TextEditingController();
 
   bool keyboardVisible = false;
+  bool dev = true;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +59,8 @@ class _PageLoginState extends State<PageLogin> {
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage(AppImage.bg3),
-              fit: BoxFit.cover, //(!keyboardVisible) ? BoxFit.fill : BoxFit.cover,
+              fit: BoxFit
+                  .cover, //(!keyboardVisible) ? BoxFit.fill : BoxFit.cover,
             ),
           ),
           child: SingleChildScrollView(
@@ -132,11 +134,14 @@ class _PageLoginState extends State<PageLogin> {
                         ),
                         BlocBuilder<AccountBloc, AccountState>(
                           builder: (context, state) {
-                            return (state.invalid == true) ? Center(child: AlertErrorLogin()) : const SizedBox(height: 4);
+                            return (state.invalid == true)
+                                ? Center(child: AlertErrorLogin())
+                                : const SizedBox(height: 4);
                           },
                         ),
                         const SizedBox(height: 6),
-                        BlocBuilder<AccountBloc, AccountState>(builder: (context, state) {
+                        BlocBuilder<AccountBloc, AccountState>(
+                            builder: (context, state) {
                           if (state.loading == false) {
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -155,7 +160,8 @@ class _PageLoginState extends State<PageLogin> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    Navigator.push(context, pageTermsAndCondition());
+                                    Navigator.push(
+                                        context, pageTermsAndCondition());
                                   },
                                   child: const Text(
                                     'สมัครสมาชิก',
@@ -180,6 +186,12 @@ class _PageLoginState extends State<PageLogin> {
                                         )),
                                   ),
                                   onPressed: () {
+                                    if (dev == true) {
+                                      phoneController.text =
+                                          "chawanthon.wirajarnyaphan@compattana.com";
+                                      passwordController.text =
+                                          "Zeptember1997.";
+                                    }
                                     // Navigator.push(context, pageOtpLogin());
                                     context.read<AccountBloc>().add(LoginCheck(
                                           context: context,
@@ -214,7 +226,8 @@ class _PageLoginState extends State<PageLogin> {
                                 child: Row(children: <Widget>[
                                   Expanded(
                                     child: Container(
-                                        margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                                        margin: const EdgeInsets.only(
+                                            left: 10.0, right: 20.0),
                                         child: const Divider(
                                           color: Colors.black,
                                           height: 36,
@@ -232,7 +245,8 @@ class _PageLoginState extends State<PageLogin> {
                                   ),
                                   Expanded(
                                     child: Container(
-                                        margin: const EdgeInsets.only(left: 20.0, right: 10.0),
+                                        margin: const EdgeInsets.only(
+                                            left: 20.0, right: 10.0),
                                         child: const Divider(
                                           color: Colors.black,
                                           height: 36,
@@ -246,16 +260,20 @@ class _PageLoginState extends State<PageLogin> {
                                   onClick: () {
                                     _googleSignInFunction(context);
                                   },
-                                  imgOrIcon: Image.asset('assets/images/logo_google.png'),
+                                  imgOrIcon: Image.asset(
+                                      'assets/images/logo_google.png'),
                                   title: 'เข้าสู่ระบบด้วย Google',
                                   textColor: Colors.black,
                                 )
                               else
                                 Btn(
                                   onClick: () async {
-                                    EasyLoading.show(maskType: EasyLoadingMaskType.black, status: 'กำลังโหลด');
+                                    EasyLoading.show(
+                                        maskType: EasyLoadingMaskType.black,
+                                        status: 'กำลังโหลด');
                                     try {
-                                      final credential = await SignInWithApple.getAppleIDCredential(
+                                      final credential = await SignInWithApple
+                                          .getAppleIDCredential(
                                         scopes: [
                                           AppleIDAuthorizationScopes.email,
                                           AppleIDAuthorizationScopes.fullName,
@@ -263,16 +281,21 @@ class _PageLoginState extends State<PageLogin> {
                                       );
                                       print(credential.state);
 
-                                      Map<String, dynamic> user = JwtDecoder.decode("${credential.identityToken}");
-                                      context
-                                          .read<AccountBloc>()
-                                          .add(LoginWithSocial(context: context, getGoogleEmail: user["email"], getGoogleImg: ""));
+                                      Map<String, dynamic> user =
+                                          JwtDecoder.decode(
+                                              "${credential.identityToken}");
+                                      context.read<AccountBloc>().add(
+                                          LoginWithSocial(
+                                              context: context,
+                                              getGoogleEmail: user["email"],
+                                              getGoogleImg: ""));
                                     } catch (e) {
                                       print(e);
                                       EasyLoading.dismiss();
                                     }
                                   },
-                                  imgOrIcon: Icon(Icons.apple, color: Colors.black),
+                                  imgOrIcon:
+                                      Icon(Icons.apple, color: Colors.black),
                                   title: 'เข้าสู่ระบบด้วย Apple',
                                   textColor: Colors.black,
                                 ),
@@ -309,16 +332,19 @@ class _PageLoginState extends State<PageLogin> {
     final prefs = await SharedPreferences.getInstance();
 
     try {
-      await FacebookAuth.instance.login(permissions: ["public_profile", "email"]).then((value) {
+      await FacebookAuth.instance
+          .login(permissions: ["public_profile", "email"]).then((value) {
         FacebookAuth.instance.getUserData().then((userDataFacebook) {
           print("------------facebook account------------");
-          EasyLoading.show(maskType: EasyLoadingMaskType.black, status: 'กำลังโหลด');
+          EasyLoading.show(
+              maskType: EasyLoadingMaskType.black, status: 'กำลังโหลด');
           // EasyLoading.showToast(userDataFacebook["email"]);
           print(userDataFacebook["name"]);
           print(userDataFacebook["email"]);
           print(userDataFacebook["picture"]["data"]["url"]);
           prefs.setString('platformLoginCheck', 'fb');
-          _loadBloc(userDataFacebook["email"].toString(), userDataFacebook["picture"]["data"]["url"].toString(), "fb");
+          _loadBloc(userDataFacebook["email"].toString(),
+              userDataFacebook["picture"]["data"]["url"].toString(), "fb");
         });
       });
     } catch (e) {
@@ -331,7 +357,8 @@ class _PageLoginState extends State<PageLogin> {
     if (Platform.isAndroid) {
       GoogleSignInAPI.login().then((result) {
         result!.authentication.then((googleKey) {
-          EasyLoading.show(maskType: EasyLoadingMaskType.black, status: 'กำลังโหลด');
+          EasyLoading.show(
+              maskType: EasyLoadingMaskType.black, status: 'กำลังโหลด');
 
           // EasyLoading.showToast(result.email.toString());
           print("------------google account--------------");
@@ -349,6 +376,9 @@ class _PageLoginState extends State<PageLogin> {
   }
 
   void _loadBloc(String mail, img, check) {
-    context.read<AccountBloc>().add(LoginWithSocial(context: context, getGoogleEmail: mail.toString(), getGoogleImg: img.toString()));
+    context.read<AccountBloc>().add(LoginWithSocial(
+        context: context,
+        getGoogleEmail: mail.toString(),
+        getGoogleImg: img.toString()));
   }
 }

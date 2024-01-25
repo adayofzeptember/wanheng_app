@@ -9,12 +9,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wanheng_app/blocs/account/account_bloc.dart';
 import 'package:wanheng_app/blocs/contact/contact_bloc.dart';
 import 'package:wanheng_app/screens/page_loading.dart';
-import 'blocs/calendar/calendar_bloc.dart';  
+import 'blocs/calendar/calendar_bloc.dart';
 import 'blocs/compass/compass_bloc.dart';
 import 'services/purchase/constant.dart';
 import 'services/purchase/store_config.dart';
 
 String? checkToken;
+
 
 void main() async {
   if (Platform.isIOS || Platform.isMacOS) {
@@ -30,8 +31,8 @@ void main() async {
       apiKey: useAmazon ? amazonApiKey : googleApiKey,
     );
   }
-  Intl.defaultLocale = 'th'; 
-
+  Intl.defaultLocale = 'th';
+  
 
   initializeDateFormatting();
   WidgetsFlutterBinding.ensureInitialized();
